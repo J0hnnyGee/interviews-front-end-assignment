@@ -81,19 +81,6 @@ select option:hover {
     flex-direction: column;
 }
 
-.submitButton {
-    margin-top: 1.5rem;
-    background-color: #f42f26;
-    border: 0;
-    transition-duration: 0.3s;
-    transition-property: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-}
-
-.checkboxSection {
-    display: flex;
-    flex-direction: column;
-    margin: 0 11rem 0 2.5rem;
-}
 
 .bottomPanel {
     display: flex;
@@ -110,25 +97,56 @@ select option:hover {
     align-items: start;
 }
 
+.showDifficulty {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .difficultyFilters>h2 {
     width: 15rem;
 }
 
+.difficultyImg {
+    margin-left: 3%;
+    width: 3rem;
+}
+
 .sliderComponent {
-    width: 60%;
+    width: 70%;
     padding: 0;
     accent-color: #f42f26;
     border-radius: 20px;
     border: #f42f26;
 }
 
+.submitFiltersSection {
+    width: 100%;
+}
 
 
+.submitButton {
+    width: 70%;
+    margin-top: 1.5rem;
+    margin: 1.5rem auto 0 auto;
+    background-color: #f42f26;
+    border: 0;
+    transition-duration: 0.3s;
+    transition-property: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
 
 @media only screen and (max-width: 1056px) {
     .leftBar {
         transform: translateX(-83%);
         z-index: 3;
+    }
+
+    .logoImg {
+        transform: rotate(180deg);
+    }
+
+    .logoImg.rotate {
+        transform: rotate(0deg);
     }
 
     .leftBar.hidden {

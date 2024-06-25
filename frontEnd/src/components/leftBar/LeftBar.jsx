@@ -4,15 +4,18 @@ import './leftBar.css'
 import { getDifficulties, getDiets, getCuisines } from '../../utils/apiCalls.jsx'
 import Slider from './Slider.jsx'
 
-export default function LeftBar() {
+export default function LeftBar({ name, setName, difficultyFilter, setDifficultyFilter, setDietFilter, setCuisineFilter, setRatingFilter }) {
     const [difficulty, setDifficulty] = useState([])
     const [diet, setDiet] = useState([])
     const [cuisine, setCuisine] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const [ratingFilter, setRatingFilter] = useState(1.0);
-    const [difficultyFilter, setDifficultyilter] = useState(1);
-    const [isSidebarHidden, setIsSidebarHidden] = useState(false); // Stato per gestire la visibilità della barra laterale
+    const [ratingSelection, setRatingSelection] = useState(1.1);
+    const [difficultySelection, setDifficultySelection] = useState(3);
+    const [isSidebarHidden, setIsSidebarHidden] = useState(false);
+    const [localName, setlocalName] = useState(name);
+    const [dietSelection, setDietSelection] = useState('')
+    const [cuisineSelection, setCuisineSelection] = useState('')
 
     useEffect(() => {
         setLoading(true);
@@ -32,23 +35,59 @@ export default function LeftBar() {
             return null;
         }
 
+
         const recipeDifficulty = difficulty.find(difficulty => difficulty.id === difficultyId.toString());
         if (!recipeDifficulty) {
             console.log('Difficulty not found:', difficultyId);
             return null;
         }
 
-        console.log(recipeDifficulty);
         return recipeDifficulty.name;
     }
 
+    function getDifficultyImg(difficultyId) {
+        if (!difficulty || difficulty.length === 0) {
+            console.log('Data not loaded yet');
+            return null;
+        }
+        if (difficultyId === 1) {
+            return './Easy.svg'
+        } else if (difficultyId === 2) {
+            return './Medium.svg'
+        } else {
+            return './Hard.svg'
+        }
+
+    }
+
+
+
     const handleRatingChange = (value) => {
-        setRatingFilter(value);
+        setRatingSelection(value);
     };
 
     const handleDifficultyChange = (value) => {
-        setDifficultyilter(value);
+        setDifficultySelection(value)
     };
+
+    const handleDietaryChange = (e) => {
+        setDietSelection(e.target.value);
+        console.log(e.target.value);
+    };
+
+    const handleCuisineChange = (e) => {
+        setCuisineSelection(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault()
+        setName(localName)
+        setDifficultyFilter(difficultySelection)
+        setDietFilter(dietSelection)
+        setCuisineFilter(cuisineSelection)
+        setRatingFilter(ratingSelection)
+    }
 
     const toggleSidebar = () => {
         setIsSidebarHidden(!isSidebarHidden);
@@ -67,16 +106,22 @@ export default function LeftBar() {
             <div className="toggleArrow" onClick={toggleSidebar}>
                 <img src='./left-arrow.svg' alt='Toggle Arrow' className={`logoImg ${isSidebarHidden ? 'rotate' : ''}`} />
             </div>
-            <form className="filtersForm">
+            <form className="filtersForm" onSubmit={handleSubmit}>
                 <h2>Discover recipes</h2>
                 <div className="discoverForm">
                     <label>
                         <p className='formLabel'>Search by name:</p>
-                        <input type="text" name="nome" placeholder='Pizza' className='input' />
+                        <input
+                            type="text"
+                            name="nome"
+                            placeholder='Pizza'
+                            className='input'
+                            onChange={e => setlocalName(e.target.value)} />
                     </label>
                     <label>
                         <p className='formLabel'>Select cuisine:</p>
-                        <select className='input' defaultValue="cocco">
+                        <select className='input' onChange={handleCuisineChange}>
+                            <option value='' className='input' >Select a cuisine</option>
                             {cuisine.map((cuisine, i) => (
                                 <SelectOption
                                     key={i}
@@ -88,7 +133,8 @@ export default function LeftBar() {
                     </label>
                     <label className='input'>
                         <p className='formLabel'>Select dietary:</p>
-                        <select className='input'>
+                        <select className='input' onChange={handleDietaryChange}>
+                            <option value='' className='input'>Select a diet</option>
                             {diet.map((diet, i) => (
                                 <SelectOption
                                     key={i}
@@ -100,7 +146,10 @@ export default function LeftBar() {
                     </label>
                 </div>
                 <div className="difficultyFilters">
-                    <h2>Difficulty: {getDifficultyName(difficultyFilter)}</h2>
+                    <div className='showDifficulty'>
+                        <h2>Difficulty: {getDifficultyName(difficultySelection)}</h2>
+                        <img src={getDifficultyImg(difficultySelection)} className="difficultyImg"></img>
+                    </div>
                     <div className="selectDifficulty">
                         <Slider
                             sliderValue={difficultyFilter}
@@ -112,17 +161,19 @@ export default function LeftBar() {
                     </div>
                 </div>
                 <div className="userReviewsFilters">
-                    <h2>Rating: {ratingFilter.toFixed(1)}</h2>
+                    <h2>Rating &gt; {(ratingSelection - 0.1).toFixed(1)}</h2>
                     <div className="selectReviews">
                         <Slider
-                            sliderValue={ratingFilter}
+                            sliderValue={ratingSelection}
                             onSliderChange={handleRatingChange}
                             min="1.0"
                             max="5.0"
                             step="0.1"
                         />
                     </div>
-                    <input type="submit" value="Submit" className='button redButton submitButton input' />
+                    <div className="submitFiltersSection">
+                        <input type="submit" value="Submit" className='button redButton submitButton input' />
+                    </div>
                 </div>
             </form>
         </div>

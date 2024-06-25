@@ -4,12 +4,13 @@ import axios from 'axios'
 import './RecipeList.css'
 import { getRecipes, getComments, getDifficulties, getDiets, getCuisines } from '../../utils/apiCalls.jsx';
 
-export default function RecipeList() {
+export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, recipeCuisine, recipeRating }) {
     const [recipe, setRecipe] = useState([]);
     const [comment, setComment] = useState([])
     const [difficulty, setDifficulty] = useState([])
     const [diet, setDiet] = useState([])
     const [cuisine, setCuisine] = useState([])
+    const [filteredRecipes, setFilteredRecipes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -25,11 +26,26 @@ export default function RecipeList() {
                 setDifficulty(difficultie);
                 setDiet(diet);
                 setCuisine(cuisine);
+                setFilteredRecipes(recipe)
             })
             .catch(err => setError(err))
             .finally(() => setLoading(false));
     }, []);
 
+
+    useEffect(() => {
+
+        console.log(recipeRating)
+        const filtered = recipe.filter(recipe => (
+            recipe.name.toLowerCase().includes(recipeName.toLowerCase()) &&
+            recipe.difficultyId <= recipeDifficulty &&
+            (recipeDiet === '' || recipe.dietId === recipeDiet) &&
+            (recipeCuisine === '' || recipe.cuisineId === recipeCuisine) &&
+            (getRating(recipe.id) >= recipeRating)
+        ));
+
+        setFilteredRecipes(filtered);
+    }, [recipeName, recipeDifficulty, recipeDiet, recipeCuisine, recipeRating, recipe]);
 
     function getCurrentRecipe(recipeId) {
         return recipe.find(recipe => recipe.id === recipeId)
@@ -63,15 +79,15 @@ export default function RecipeList() {
 
     function getCuisine(recipeId) {
         const currentRecipe = getCurrentRecipe(recipeId)
-        const recipeCuisine = cuisine.find(cuisine => cuisine.id === currentRecipe.dietId);
+        const recipeCuisine = cuisine.find(cuisine => cuisine.id === currentRecipe.cuisineId);
         return recipeCuisine.name
     }
 
     const indexOfLastRecipe = currentPage * recipesPerPage;
     const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-    const currentRecipes = recipe.slice(indexOfFirstRecipe, indexOfLastRecipe);
+    const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
-    const totalPages = Math.ceil(recipe.length / recipesPerPage);
+    const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
 
     function handlePageChange(pageNumber) {
         setCurrentPage(pageNumber);
@@ -91,7 +107,9 @@ export default function RecipeList() {
 
     return (
         <div className="recipeList">
+
             {
+
                 currentRecipes.map((dish) => {
                     return <RecipeCard
                         key={dish.id}

@@ -156,13 +156,17 @@
 }
 
 
+.dishDifficulty {
+    text-align: right;
+}
+
 .callToActionButton {
     padding: .7rem 4rem .7rem 4rem;
 
 }
 
 /* SMALL SCREENS */
-@media only screen and (max-width: 1356px) {
+@media only screen and (max-width: 1453px) {
     .dishImg {
         width: 11rem;
         height: 11rem;
@@ -173,7 +177,9 @@
     }
 }
 
-@media only screen and (max-width: 1056px) {
+
+
+@media only screen and (max-width: 1290px) {
 
 
     .card {
@@ -316,5 +322,9 @@
     .dishImg {
         width: 15rem;
         height: 15rem;
+    }
+
+    .dishDifficulty {
+        margin-left: 13rem;
     }
 }
