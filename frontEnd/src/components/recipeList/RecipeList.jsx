@@ -4,7 +4,7 @@ import axios from 'axios'
 import './RecipeList.css'
 import { getRecipes, getComments, getDifficulties, getDiets, getCuisines } from '../../utils/apiCalls.jsx';
 
-export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, recipeCuisine }) {
+export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, recipeCuisine, recipeRating }) {
     const [recipe, setRecipe] = useState([]);
     const [comment, setComment] = useState([])
     const [difficulty, setDifficulty] = useState([])
@@ -35,16 +35,17 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, r
 
     useEffect(() => {
 
-        console.log(recipeDiet)
+        console.log(recipeRating)
         const filtered = recipe.filter(recipe => (
             recipe.name.toLowerCase().includes(recipeName.toLowerCase()) &&
             recipe.difficultyId <= recipeDifficulty &&
             (recipeDiet === '' || recipe.dietId === recipeDiet) &&
-            (recipeCuisine === '' || recipe.cuisineId === recipeCuisine)
+            (recipeCuisine === '' || recipe.cuisineId === recipeCuisine) &&
+            (getRating(recipe.id) >= recipeRating)
         ));
 
         setFilteredRecipes(filtered);
-    }, [recipeName, recipeDifficulty, recipeDiet, recipeCuisine, recipe]);
+    }, [recipeName, recipeDifficulty, recipeDiet, recipeCuisine, recipeRating, recipe]);
 
     function getCurrentRecipe(recipeId) {
         return recipe.find(recipe => recipe.id === recipeId)

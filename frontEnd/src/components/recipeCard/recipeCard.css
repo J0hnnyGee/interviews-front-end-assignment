@@ -166,7 +166,7 @@
 }
 
 /* SMALL SCREENS */
-@media only screen and (max-width: 1356px) {
+@media only screen and (max-width: 1453px) {
     .dishImg {
         width: 11rem;
         height: 11rem;
@@ -177,7 +177,9 @@
     }
 }
 
-@media only screen and (max-width: 1056px) {
+
+
+@media only screen and (max-width: 1290px) {
 
 
     .card {

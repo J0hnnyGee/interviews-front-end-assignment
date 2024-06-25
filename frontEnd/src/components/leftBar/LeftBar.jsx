@@ -4,13 +4,13 @@ import './leftBar.css'
 import { getDifficulties, getDiets, getCuisines } from '../../utils/apiCalls.jsx'
 import Slider from './Slider.jsx'
 
-export default function LeftBar({ name, setName, difficultyFilter, setDifficultyFilter, dietFilter, setDietFilter, setCuisineFilter }) {
+export default function LeftBar({ name, setName, difficultyFilter, setDifficultyFilter, setDietFilter, setCuisineFilter, setRatingFilter }) {
     const [difficulty, setDifficulty] = useState([])
     const [diet, setDiet] = useState([])
     const [cuisine, setCuisine] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const [ratingFilter, setRatingFilter] = useState(1.0);
+    const [ratingSelection, setRatingSelection] = useState(1.1);
     const [difficultySelection, setDifficultySelection] = useState(3);
     const [isSidebarHidden, setIsSidebarHidden] = useState(false);
     const [localName, setlocalName] = useState(name);
@@ -63,7 +63,7 @@ export default function LeftBar({ name, setName, difficultyFilter, setDifficulty
 
 
     const handleRatingChange = (value) => {
-        setRatingFilter(value);
+        setRatingSelection(value);
     };
 
     const handleDifficultyChange = (value) => {
@@ -86,8 +86,7 @@ export default function LeftBar({ name, setName, difficultyFilter, setDifficulty
         setDifficultyFilter(difficultySelection)
         setDietFilter(dietSelection)
         setCuisineFilter(cuisineSelection)
-        console.log(cuisineSelection)
-
+        setRatingFilter(ratingSelection)
     }
 
     const toggleSidebar = () => {
@@ -162,10 +161,10 @@ export default function LeftBar({ name, setName, difficultyFilter, setDifficulty
                     </div>
                 </div>
                 <div className="userReviewsFilters">
-                    <h2>Rating: {ratingFilter.toFixed(1)}</h2>
+                    <h2>Rating &gt; {(ratingSelection - 0.1).toFixed(1)}</h2>
                     <div className="selectReviews">
                         <Slider
-                            sliderValue={ratingFilter}
+                            sliderValue={ratingSelection}
                             onSliderChange={handleRatingChange}
                             min="1.0"
                             max="5.0"
