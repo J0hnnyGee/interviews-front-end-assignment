@@ -156,6 +156,10 @@
 }
 
 
+.dishDifficulty {
+    text-align: right;
+}
+
 .callToActionButton {
     padding: .7rem 4rem .7rem 4rem;
 
@@ -316,5 +320,9 @@
     .dishImg {
         width: 15rem;
         height: 15rem;
+    }
+
+    .dishDifficulty {
+        margin-left: 13rem;
     }
 }
