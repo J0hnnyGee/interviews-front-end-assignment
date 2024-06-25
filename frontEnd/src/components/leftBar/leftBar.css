@@ -81,11 +81,8 @@ select option:hover {
     flex-direction: column;
 }
 
-.checkboxSection {
-    display: flex;
-    flex-direction: column;
-    margin: 0 11rem 0 2.5rem;
-}
+
+
 
 .bottomPanel {
     display: flex;

@@ -4,7 +4,7 @@ import axios from 'axios'
 import './RecipeList.css'
 import { getRecipes, getComments, getDifficulties, getDiets, getCuisines } from '../../utils/apiCalls.jsx';
 
-export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet }) {
+export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, recipeCuisine }) {
     const [recipe, setRecipe] = useState([]);
     const [comment, setComment] = useState([])
     const [difficulty, setDifficulty] = useState([])
@@ -39,11 +39,12 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet })
         const filtered = recipe.filter(recipe => (
             recipe.name.toLowerCase().includes(recipeName.toLowerCase()) &&
             recipe.difficultyId <= recipeDifficulty &&
-            (recipeDiet === '' || recipe.dietId === recipeDiet)
+            (recipeDiet === '' || recipe.dietId === recipeDiet) &&
+            (recipeCuisine === '' || recipe.cuisineId === recipeCuisine)
         ));
 
         setFilteredRecipes(filtered);
-    }, [recipeName, recipeDifficulty, recipeDiet, recipe]);
+    }, [recipeName, recipeDifficulty, recipeDiet, recipeCuisine, recipe]);
 
     function getCurrentRecipe(recipeId) {
         return recipe.find(recipe => recipe.id === recipeId)
@@ -77,7 +78,7 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet })
 
     function getCuisine(recipeId) {
         const currentRecipe = getCurrentRecipe(recipeId)
-        const recipeCuisine = cuisine.find(cuisine => cuisine.id === currentRecipe.dietId);
+        const recipeCuisine = cuisine.find(cuisine => cuisine.id === currentRecipe.cuisineId);
         return recipeCuisine.name
     }
 

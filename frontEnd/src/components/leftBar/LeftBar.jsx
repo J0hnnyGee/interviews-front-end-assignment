@@ -4,7 +4,7 @@ import './leftBar.css'
 import { getDifficulties, getDiets, getCuisines } from '../../utils/apiCalls.jsx'
 import Slider from './Slider.jsx'
 
-export default function LeftBar({ name, setName, difficultyFilter, setDifficultyFilter, dietFilter, setDietFilter }) {
+export default function LeftBar({ name, setName, difficultyFilter, setDifficultyFilter, dietFilter, setDietFilter, setCuisineFilter }) {
     const [difficulty, setDifficulty] = useState([])
     const [diet, setDiet] = useState([])
     const [cuisine, setCuisine] = useState([])
@@ -15,6 +15,7 @@ export default function LeftBar({ name, setName, difficultyFilter, setDifficulty
     const [isSidebarHidden, setIsSidebarHidden] = useState(false);
     const [localName, setlocalName] = useState(name);
     const [dietSelection, setDietSelection] = useState('')
+    const [cuisineSelection, setCuisineSelection] = useState('')
 
     useEffect(() => {
         setLoading(true);
@@ -71,13 +72,21 @@ export default function LeftBar({ name, setName, difficultyFilter, setDifficulty
 
     const handleDietaryChange = (e) => {
         setDietSelection(e.target.value);
+        console.log(e.target.value);
+    };
+
+    const handleCuisineChange = (e) => {
+        setCuisineSelection(e.target.value);
     };
 
     const handleSubmit = (e) => {
+
         e.preventDefault()
         setName(localName)
         setDifficultyFilter(difficultySelection)
         setDietFilter(dietSelection)
+        setCuisineFilter(cuisineSelection)
+        console.log(cuisineSelection)
 
     }
 
@@ -112,7 +121,8 @@ export default function LeftBar({ name, setName, difficultyFilter, setDifficulty
                     </label>
                     <label>
                         <p className='formLabel'>Select cuisine:</p>
-                        <select className='input' defaultValue="cocco">
+                        <select className='input' onChange={handleCuisineChange}>
+                            <option value='' className='input' >Select a cuisine</option>
                             {cuisine.map((cuisine, i) => (
                                 <SelectOption
                                     key={i}
