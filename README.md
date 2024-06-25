@@ -99,5 +99,7 @@ comments. Enable users to add comments and rate the recipe, displaying the avera
 comments.
 
 ## How to run
-
+<p align="center">
+<img  src="https://i.pinimg.com/564x/9c/d0/40/9cd040a4bcd9299c8980a16713016ea7.jpg"/>
+</p>
 ...
