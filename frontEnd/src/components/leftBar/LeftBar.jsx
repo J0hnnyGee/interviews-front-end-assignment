@@ -12,7 +12,7 @@ export default function LeftBar() {
     const [error, setError] = useState(null)
     const [ratingFilter, setRatingFilter] = useState(1.0);
     const [difficultyFilter, setDifficultyilter] = useState(1);
-    const [isSidebarHidden, setIsSidebarHidden] = useState(false); // Stato per gestire la visibilità della barra laterale
+    const [isSidebarHidden, setIsSidebarHidden] = useState(false);
 
     useEffect(() => {
         setLoading(true);
