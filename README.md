@@ -102,4 +102,40 @@ comments.
 <p align="center">
 <img  src="https://i.pinimg.com/564x/9c/d0/40/9cd040a4bcd9299c8980a16713016ea7.jpg"/>
 </p>
-...
+
+
+
+### Frontend
+To start the front-end go into the frontEnd folder:
+
+```bash
+cd frontEnd
+```
+
+And then start it with:
+
+```bash
+npm run dev
+```
+
+### Server
+To run the server go to the server folder:
+
+```bash
+cd server
+```
+And then start it with:
+
+```bash
+npm start
+```
+
+
+## Documentation
+For the project realization the following technologies have been used:
+
+- ReactJS
+- React Router
+- Axios
+
+### About the functionalities
