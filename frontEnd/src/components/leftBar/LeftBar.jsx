@@ -72,7 +72,6 @@ export default function LeftBar({ name, setName, difficultyFilter, setDifficulty
 
     const handleDietaryChange = (e) => {
         setDietSelection(e.target.value);
-        console.log(e.target.value);
     };
 
     const handleCuisineChange = (e) => {

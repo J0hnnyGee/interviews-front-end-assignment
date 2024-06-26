@@ -18,6 +18,11 @@
     text-align: left;
 }
 
+
+a {
+    text-decoration: none !important;
+}
+
 .leftElems button {
     border-width: 0;
     background: #ffffff;

@@ -100,7 +100,7 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, r
     }
 
     if (error) {
-        return <div><h2>Error: {error}</h2 ></div >;
+        return <div className="userMessage"><h2>Error: {error}</h2 ></div >;
     }
 
     return (
