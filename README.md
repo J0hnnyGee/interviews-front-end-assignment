@@ -151,7 +151,7 @@ The main page is made of three main components:
 #### Navbar
 Through the navbar thanks to react routing is possible to visit the webapp's pages using a single-page-application approach.
 
-#### Navbar
+#### Recipe List 
 The recipe list is showing as default the whole dateset of recipes present in the given API, divided in groups to reduce the browser load. 
 Is possible to see the other recipes using the buttons at the bottom.
 
