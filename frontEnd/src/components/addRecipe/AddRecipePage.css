@@ -1,0 +1,164 @@
+.addRecipePage {
+    width: 60%;
+    height: 60rem;
+
+    margin: 6rem auto 2rem auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.userMessageAddRecipe {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.addRecipeCard {
+    height: 80%;
+
+}
+
+
+.addRecipeCard .formLabel {
+    font-size: 1.4rem;
+}
+
+.addRecipeCard:hover {
+    transform: none;
+}
+
+.addRecipeCardContent {
+    height: 100%;
+    width: 100%;
+}
+
+.addRecipeForm {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.cardHalfContent {
+    margin: 2rem 3rem 4rem;
+}
+
+.addRecipeCardLeft {
+    width: 50%;
+
+}
+
+.addRecipeCardLeft h2 {
+    margin-bottom: 2rem;
+}
+
+
+.addLabel {
+    width: 100%;
+}
+
+.addLabel .input {
+    margin-bottom: 1.5rem;
+    width: 93%;
+    box-sizing: border-box;
+}
+
+input[type='file'] {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0;
+}
+
+.fileButton {
+    font-family: Roboto, Helvetica, sans-serif;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 40px;
+    padding: .5rem 1.6rem .5rem 1.6rem;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    background-color: #f42f26;
+    border-width: 0;
+    color: #ffffff;
+
+}
+
+.fileButton {
+    background-color: #dc2a22;
+    -webkit-transform: scale(1.03);
+    transform: scale(1.03);
+}
+
+.uploadedImage {
+    border-radius: 10px;
+}
+
+.addRecipeCardRight {
+    width: 50%;
+    margin-top: 6.5rem;
+}
+
+
+.addRecipeCardRight h2 {
+    font-size: 1.5rem;
+}
+
+.addRecipeCardRight .difficultyFilters {
+    width: 120%;
+    margin-bottom: 3.4rem;
+}
+
+.addIngredients {
+    margin-top: 1.5rem;
+}
+
+.addIngredients input {
+    margin-bottom: .5rem;
+    margin-right: 1rem;
+
+}
+
+.addIngredients>button {
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.ingrediensList {
+    padding-left: 0;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 1rem;
+    width: 93%;
+}
+
+.ingredientAdded {
+    margin-right: 2%;
+    margin-bottom: 2%;
+    list-style-type: none;
+    padding: 0;
+}
+
+.buttonIngredient {
+    transform: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.buttonDelete {
+    margin-left: 1rem;
+    font-size: 1rem;
+    padding: .5% 1% .5% 1%;
+    border: 0px;
+    border-radius: 400px;
+    pointer-events: none;
+
+}
+
+.buttonDelete:hover {
+    transform: none;
+}
