@@ -205,7 +205,7 @@ export default function AddRecipePage() {
                                         setSelectedImage(event.target.files[0]);
                                     }}
                                 />
-                                <span className="fileButton">File button</span>
+                                <span className="fileButton">Add image</span>
 
                             </label>
                         </div>
