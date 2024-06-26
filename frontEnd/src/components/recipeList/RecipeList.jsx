@@ -34,8 +34,6 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, r
 
 
     useEffect(() => {
-
-        console.log(recipeRating)
         const filtered = recipe.filter(recipe => (
             recipe.name.toLowerCase().includes(recipeName.toLowerCase()) &&
             recipe.difficultyId <= recipeDifficulty &&
