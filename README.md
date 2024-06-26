@@ -155,7 +155,7 @@ Through the navbar thanks to react routing is possible to visit the webapp's pag
 The recipe list is showing as default the whole dateset of recipes present in the given API, divided in groups to reduce the browser load. 
 Is possible to see the other recipes using the buttons at the bottom.
 
-#### Navbar
+#### Sidebar
 The sidebar makes possible for the use to filter the shown recipes using the given fields.
 To make less possible for the user to make errors, and to get a more modern UI, for all the field exept the name it has been chosen to show some selectable options or a slider.
 
@@ -171,7 +171,7 @@ Some important details for this section are:
 - A maximum of four ingredients are shown to avoid crowding the interface
 
 
-### About the functionalities
+### Future implementations
 The webapp here shows some basic functionalities, but here I would like to give some possible future implementations:
 - A working add recipe operation (at the moment only in UI)
 - A recipe detail page
