@@ -351,6 +351,46 @@
       "dietId": "3",
       "difficultyId": "1",
       "image": "/uploads/Pasta-Primavera-f.jpg"
+    },
+    {
+      "id": "1719510379793",
+      "name": "Peposo",
+      "ingredients": [
+        "Meat",
+        "Pepper"
+      ],
+      "instructions": "Cook well and slowly",
+      "cuisineId": "1",
+      "dietId": "2",
+      "difficultyId": "2",
+      "image": "/uploads/1719510379787.jpg"
+    },
+    {
+      "id": "1719516386701",
+      "name": "Salsiccia al forno",
+      "ingredients": [
+        "Potatoes",
+        "Salsiccia"
+      ],
+      "instructions": "Put in the hoven at 200 C°",
+      "cuisineId": "1",
+      "dietId": "2",
+      "difficultyId": "1",
+      "image": "/uploads/1719516386698.jpg"
+    },
+    {
+      "id": "1719517669705",
+      "name": "Pasta al pesto",
+      "ingredients": [
+        "Basil",
+        "Pesto",
+        "Pasta"
+      ],
+      "instructions": "Add pasta in boiling water",
+      "cuisineId": "1",
+      "dietId": "1",
+      "difficultyId": "1",
+      "image": "/uploads/1719517669704.jpg"
     }
   ],
   "comments": [

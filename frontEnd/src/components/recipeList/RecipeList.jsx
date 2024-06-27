@@ -15,7 +15,7 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, r
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const recipesPerPage = 4;
+    const recipesPerPage = 5;
 
     useEffect(() => {
         setLoading(true);
@@ -34,13 +34,14 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, r
 
 
     useEffect(() => {
-        const filtered = recipe.filter(recipe => (
-            recipe.name.toLowerCase().includes(recipeName.toLowerCase()) &&
-            recipe.difficultyId <= recipeDifficulty &&
-            (recipeDiet === '' || recipe.dietId === recipeDiet) &&
-            (recipeCuisine === '' || recipe.cuisineId === recipeCuisine) &&
-            (getRating(recipe.id) >= recipeRating)
-        ));
+        const filtered = recipe.filter(recipe => {
+            const matchesName = recipe.name.toLowerCase().includes(recipeName.toLowerCase());
+            const matchesDifficulty = recipe.difficultyId <= recipeDifficulty;
+            const matchesDiet = recipeDiet === '' || recipe.dietId === recipeDiet;
+            const matchesCuisine = recipeCuisine === '' || recipe.cuisineId === recipeCuisine;
+            const matchesRating = !getRating(recipe.id) || getRating(recipe.id) >= recipeRating;
+            return matchesName && matchesDifficulty && matchesDiet && matchesCuisine && matchesRating;
+        });
 
         setFilteredRecipes(filtered);
     }, [recipeName, recipeDifficulty, recipeDiet, recipeCuisine, recipeRating, recipe]);
@@ -81,6 +82,13 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, r
         return recipeCuisine.name
     }
 
+    function handleRating(recipeId) {
+        if (!getRating(recipeId)) {
+            return '2.5'
+        } else {
+            return getRating(recipeId)
+        }
+    }
     const indexOfLastRecipe = currentPage * recipesPerPage;
     const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
     const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
@@ -106,22 +114,23 @@ export default function RecipeList({ recipeName, recipeDifficulty, recipeDiet, r
     return (
         <div className="recipeList">
 
-            {
-
-                currentRecipes.map((dish) => {
-                    return <RecipeCard
+            {currentRecipes.length > 0 ? (
+                currentRecipes.map((dish) => (
+                    <RecipeCard
                         key={dish.id}
                         dishName={dish.name}
                         dishImg={dish.image}
-                        dishRating={getRating(dish.id)}
+                        dishRating={handleRating(dish.id)}
                         dishReviews={getRecipeComments(dish.id).length}
                         dishDifficulty={getDifficulty(dish.id)}
                         dishDiet={getDiet(dish.id)}
                         dishCuisine={getCuisine(dish.id)}
                         dishIngredients={dish.ingredients}
                     />
-                })
-            }
+                ))
+            ) : (
+                <div className="userMessage"><h2>No recipes with the current filters</h2 ></div >
+            )}
             <div className="pagination">
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
