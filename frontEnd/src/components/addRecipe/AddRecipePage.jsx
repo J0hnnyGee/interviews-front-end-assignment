@@ -1,6 +1,7 @@
 import "./AddRecipePage.css"
 import axios from 'axios';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import SelectOption from '../leftBar/SelectOption'
 import Slider from '../leftBar/Slider.jsx'
@@ -9,20 +10,20 @@ import { getDifficulties, getDiets, getCuisines, getRecipes } from '../../utils/
 
 export default function AddRecipePage() {
     const [localName, setlocalName] = useState('');
-    const [cuisine, setCuisine] = useState([])
-    const [cuisineSelection, setCuisineSelection] = useState('')
-    const [diet, setDiet] = useState([])
-    const [dietSelection, setDietSelection] = useState('')
-    const [difficulty, setDifficulty] = useState([])
+    const [cuisine, setCuisine] = useState([]);
+    const [cuisineSelection, setCuisineSelection] = useState('');
+    const [diet, setDiet] = useState([]);
+    const [dietSelection, setDietSelection] = useState('');
+    const [difficulty, setDifficulty] = useState([]);
     const [difficultySelection, setDifficultySelection] = useState(1);
-    const [ingredients, setIngredients] = useState([])
-    const [inputIngredient, setInputIngredient] = useState('')
-    const [inputInstructions, setInputInstructions] = useState('')
+    const [ingredients, setIngredients] = useState([]);
+    const [inputIngredient, setInputIngredient] = useState('');
+    const [inputInstructions, setInputInstructions] = useState('');
 
     const [selectedImage, setSelectedImage] = useState(null);
 
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         setLoading(true);
@@ -42,11 +43,10 @@ export default function AddRecipePage() {
 
     const handleDietaryChange = (e) => {
         setDietSelection(e.target.value);
-        console.log(e.target.value);
     };
 
     const handleDifficultyChange = (value) => {
-        setDifficultySelection(value)
+        setDifficultySelection(value);
     };
 
     function getDifficultyName(difficultyId) {
@@ -54,7 +54,6 @@ export default function AddRecipePage() {
             console.log('Data not loaded yet');
             return null;
         }
-
 
         const recipeDifficulty = difficulty.find(difficulty => difficulty.id === difficultyId.toString());
         if (!recipeDifficulty) {
@@ -77,23 +76,22 @@ export default function AddRecipePage() {
         } else {
             return './Hard.svg'
         }
-
     }
 
     function handleIngredientChange(e) {
-        setInputIngredient(e.target.value)
+        setInputIngredient(e.target.value);
     }
 
     function handleIngredientSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
         if (inputIngredient) {
-            setIngredients([inputIngredient, ...ingredients])
-            setInputIngredient('')
+            setIngredients([inputIngredient, ...ingredients]);
+            setInputIngredient('');
         }
     }
 
     const handleIngredientDelete = (e, index) => {
-        e.preventDefault()
+        e.preventDefault();
 
         const newIngredients = [...ingredients];
         newIngredients.splice(index, 1);
@@ -102,30 +100,53 @@ export default function AddRecipePage() {
 
     const handleExcess = () => {
         const hiddenIngredients = ingredients.length - 4;
-        if (ingredients.length > 4) {
+        if (ingredients.length === 5) {
+            return <p>...Other {hiddenIngredients + ' ingredient'}</p>
+        } else if (ingredients.length > 5) {
             return <p>...Other {hiddenIngredients + ' ingredients'}</p>
-        }
-    };
+
+
+        };
+    }
 
     const handleRecipeSubmit = (e) => {
         e.preventDefault();
-        const recipeData = {
-            id: getRecipes().length,
-            name: localName,
-            ingredients: ingredients,
-            instructions: inputInstructions,
-            cuisineId: cuisineSelection.id,
-            dietId: dietSelection.id,
-            difficultyId: difficultySelection.id,
-            image: URL.createObjectURL(selectedImage)
-        };
-        console.log(recipeData);
-        axios.post("http://localhost:8080/recipes", recipeData)
+
+        if (!localName || !cuisineSelection || !dietSelection || !difficultySelection || ingredients.length === 0 || !inputInstructions || !selectedImage) {
+            toast.error("Please fill in all the fields.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("name", localName);
+        formData.append("ingredients", ingredients.join(","));
+        formData.append("instructions", inputInstructions);
+        formData.append("cuisineId", cuisineSelection);
+        formData.append("dietId", dietSelection);
+        formData.append("difficultyId", difficultySelection);
+        formData.append("image", selectedImage);
+
+
+        axios
+            .post("http://localhost:8080/recipes", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
             .then((response) => {
                 console.log(response.status, response.data.message);
+                toast.success("Recipe added successfully!");
+                setlocalName("");
+                setCuisineSelection("");
+                setDietSelection("");
+                setDifficultySelection(1);
+                setIngredients([]);
+                setInputInstructions("");
+                setSelectedImage(null);
             })
             .catch((error) => {
                 console.error("There was an error creating the recipe!", error);
+                toast.error("Error creating the recipe!");
             });
     };
 
@@ -140,9 +161,10 @@ export default function AddRecipePage() {
     const currentIngredients = ingredients.slice(0, 4);
     return (
         <div className='addRecipePage'>
+            <ToastContainer />
             <div className='card addRecipeCard'>
                 <div className='addRecipeCardContent'>
-                    <form className="addRecipeForm">
+                    <form className="addRecipeForm" onSubmit={handleRecipeSubmit}>
                         <div className="cardHalfContent addRecipeCardLeft">
                             <h2>Add a new recipe</h2>
                             <label className="addLabel">
@@ -156,10 +178,10 @@ export default function AddRecipePage() {
                             </label>
                             <label className="addLabel">
                                 <p className='formLabel'>Select cuisine:</p>
-                                <select className='input'>
-                                    <option value='' onChange={handleCuisineChange}>Select a cuisine</option>
+                                <select className='input' onChange={handleCuisineChange}>
+                                    <option value=''>Select a cuisine</option>
                                     {cuisine.map((cuisine, i) => (
-                                        < SelectOption
+                                        <SelectOption
                                             key={i}
                                             label={cuisine.name}
                                             value={cuisine.id}
@@ -170,7 +192,7 @@ export default function AddRecipePage() {
                             <label className="addLabel">
                                 <p className='formLabel'>Select dietary:</p>
                                 <select className='input' onChange={handleDietaryChange}>
-                                    <option value='' className='input'>Select a diet</option>
+                                    <option value=''>Select a diet</option>
                                     {diet.map((diet, i) => (
                                         <SelectOption
                                             key={i}
@@ -180,34 +202,20 @@ export default function AddRecipePage() {
                                     ))}
                                 </select>
                             </label>
-                            {/*Image upload section */}
-                            {selectedImage && (
-                                <div>
-                                    <img
-                                        alt="not found"
-                                        width={"150px"}
-                                        src={URL.createObjectURL(selectedImage)}
-                                        className="uploadedImage"
-                                    />
-                                    <br /> <br />
-                                    <button onClick={() => setSelectedImage(null)} className="button redbutton">Remove</button>
-                                </div>
-                            )}
+                            <div className="addIngredients">
+                                <p className='formLabel'>Add Ingredients</p>
+                                <input type='text' value={inputIngredient} onChange={handleIngredientChange} className="input" />
+                                <button onClick={handleIngredientSubmit} className="button redButton">Add Ingredient</button>
+                                <ul className="ingrediensList">
+                                    {currentIngredients.map((ingredient, i) => (
+                                        <li key={i} className="ingredientAdded">
+                                            <button className="buttonIngredient" onClick={(e) => handleIngredientDelete(e, i)}> {ingredient} <button className="buttonDelete">x</button></button>
+                                        </li>
+                                    ))}
+                                    {handleExcess()}
+                                </ul>
+                            </div>
 
-                            <br />
-                            <label>
-                                <input
-                                    type="file"
-                                    name="myImage"
-                                    className="button redbutton"
-                                    onChange={(event) => {
-                                        console.log(event.target.files[0]);
-                                        setSelectedImage(event.target.files[0]);
-                                    }}
-                                />
-                                <span className="fileButton">Add image</span>
-
-                            </label>
                         </div>
                         {/*Left Side End*/}
                         <div className="cardHalfContent addRecipeCardRight">
@@ -226,26 +234,42 @@ export default function AddRecipePage() {
                                     />
                                 </div>
                             </div>
-                            <div className="addIngredients">
-                                <p className='formLabel'>Add Ingredients</p>
-                                <input type='text' value={inputIngredient} onChange={handleIngredientChange} className="input" />
-                                <button onClick={handleIngredientSubmit} className="button redButton">Add Ingredient</button>
-                                <ul className="ingrediensList">
-                                    {currentIngredients.map((ingredient, i) => (
-                                        <li key={i} className="ingredientAdded">
-                                            <button className="buttonIngredient" onClick={handleIngredientDelete}> {ingredient} <button className="buttonDelete">x</button></button>
-                                        </li>
-                                    ))}
-                                    {handleExcess()}
-                                </ul>
-                            </div>
                             <label className="addLabel"> <p className='formLabel'>Add Instructions:</p></label>
                             <textarea id="addInstructions" rows="4" cols="50" onChange={e => setInputInstructions(e.target.value)}></textarea>
-                            <input type="submit" value="Submit Recipe" className='button redButton submitButton input' onClick={handleRecipeSubmit} />
+                            {/*Image upload section */}
+                            {selectedImage && (
+                                <div>
+                                    <img
+                                        alt="not found"
+                                        width={"150px"}
+                                        src={URL.createObjectURL(selectedImage)}
+                                        className="uploadedImage"
+                                    />
+                                    <br /> <br />
+                                    <button onClick={() => setSelectedImage(null)} className="button redbutton">Remove</button>
+                                </div>
+                            )}
+
+                            <br />
+                            <label className="imageButtonLabel">
+                                <input
+                                    type="file"
+                                    name="myImage"
+                                    className="button redbutton"
+                                    onChange={(event) => {
+                                        console.log(event.target.files[0]);
+                                        setSelectedImage(event.target.files[0]);
+                                    }}
+                                />
+                                <span className="fileButton">Add image</span>
+                                <br />
+                            </label>
+
+                            <input type="submit" value="Submit Recipe" className='button redButton submitButton input' />
                         </div>
                     </form>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
