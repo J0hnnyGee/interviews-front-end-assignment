@@ -136,6 +136,7 @@ For the project realization the following technologies have been used:
 
 - ReactJS
 - React Router (for a SPA approach)
+- React Toastify (for user messages)
 - Axios (to better handle API calls and errors)
 
 ### About the functionalities
@@ -157,10 +158,16 @@ Is possible to see the other recipes using the buttons at the bottom.
 
 #### Sidebar
 The sidebar makes possible for the use to filter the shown recipes using the given fields.
-To make less possible for the user to make errors, and to get a more modern UI, for all the field exept the name it has been chosen to show some selectable options or a slider.
+To make avoid user errors, and to get a more modern UI, for all the field except the name it has been chosen to show some selectable options or a slider.
+If no recipe has all the selected filter, a message is shown, as below:
+
+<img  src="https://github.com/J0hnnyGee/interviews-front-end-assignment/blob/main/frontEnd/public/List%20void.png"/>
+
+<br/>
+<br/>
 
 #### Add Recipe
-<img  src="https://github.com/J0hnnyGee/interviews-front-end-assignment/blob/main/frontEnd/public/Add%20recipe%20page.png"/>
+<img  src="https://github.com/J0hnnyGee/interviews-front-end-assignment/blob/main/frontEnd/public/Add%20recipe%20page%202.png"/>
 
 Through the "Add" button of the Navbar is possible for the user to visit the Add recipe page.
 Here the user can add all the details of his favourite recipe.
@@ -169,11 +176,14 @@ Some important details for this section are:
 - It's possible to load an image, see it, and delete it.
 - It is possible to add and delete recipe ingredients
 - A maximum of four ingredients are shown to avoid crowding the interface
+- If one or more fields are empty, an error message is shown, as below
+
+<img  src="https://github.com/J0hnnyGee/interviews-front-end-assignment/blob/main/frontEnd/public/Add%20error.png"/>
+
 
 
 ### Future implementations
 The webapp here shows some basic functionalities, but here I would like to give some possible future implementations:
-- A working add recipe operation (at the moment only in UI)
 - A recipe detail page
 - A profile page
 - The chance for the user to save his favourite recipes
